@@ -4,9 +4,9 @@
 //import { signalR } from "./signalr/dist/browser/signalr";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
-//Disable send button until connection is established
 document.addEventListener("DOMContentLoaded", function () {
 
+//Disable send button until connection is established
     document.getElementById("sendButton").disabled = true;
 
     document.getElementById("userInput").onload = function () {
@@ -36,6 +36,16 @@ document.addEventListener("DOMContentLoaded", function () {
         var message = document.getElementById("messageInput").value;
 
         connection.invoke("SendMessage", user, message).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });
+
+    document.getElementById("sendToSelf").addEventListener("click", function (event) {
+        var user = document.getElementById("userInput").value;
+        var message = document.getElementById("messageInput").value;
+
+        connection.invoke("SendMessageToCaller", user, message).catch(function (err) {
             return console.error(err.toString());
         });
         event.preventDefault();

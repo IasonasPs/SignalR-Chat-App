@@ -8,5 +8,15 @@ namespace SignalRChat.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+
+        public async Task SendMessageToCaller(string user, string message)
+        {
+            await Clients.Caller.SendAsync("ReceiveMessage", user, message);
+        }
+
+        public async Task SendMessageToGroup(string user, string message, string groupName)
+        {
+            await Clients.Group(groupName).SendAsync("ReceiveMessage", user, message);
+        }
     }
 }
